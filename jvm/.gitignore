@@ -1,0 +1,9 @@
+### IntelliJ Idea
+.idea/
+
+### SBT
+target/
+lib_managed/
+src_managed/
+project/boot/
+.cache
