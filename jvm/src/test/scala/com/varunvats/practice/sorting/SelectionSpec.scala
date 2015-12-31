@@ -1,8 +1,6 @@
 package com.varunvats.practice.sorting
 
-import org.scalatest.{Matchers, WordSpec}
-
-class SelectionTest extends WordSpec with Matchers {
+class SelectionSpec extends UnitSpec {
 
   "Selection sort" must {
 
@@ -35,7 +33,11 @@ class SelectionTest extends WordSpec with Matchers {
       Selection.sort(a)
       a shouldBe Array(0, 3, 5, 9, 10, 29)
     }
-  }
 
-  private def array(numbers: Double*) = Array(numbers: _*).map(Double.box)
+    "sort an array in which all the elements have the same value" in {
+      val a = array(5, 5, 5, 5, 5)
+      Selection.sort(a)
+      a shouldBe Array(5, 5, 5, 5, 5)
+    }
+  }
 }
