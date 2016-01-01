@@ -3,7 +3,7 @@ package com.varunvats.practice.sorting;
 public class Selection extends SortBase {
 
     /**
-     * Sorts an array in-place.
+     * Sorts an array in-place using the selection-sort algorithm.
      *
      * @param a The array to sort.
      */

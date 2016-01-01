@@ -3,7 +3,7 @@ package com.varunvats.practice.sorting;
 public class Insertion extends SortBase {
 
     /**
-     * Sorts an array in-place
+     * Sorts an array in-place using the insertion-sort algorithm.
      *
      * @param a The array to be sorted.
      */
