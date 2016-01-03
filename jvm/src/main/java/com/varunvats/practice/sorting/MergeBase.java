@@ -2,9 +2,7 @@ package com.varunvats.practice.sorting;
 
 public class MergeBase extends SortBase {
 
-    protected static Comparable[] aux;
-
-    protected static <T extends Comparable<T>> void merge(T[] a, int low, int mid, int high) {
+    protected static <T extends Comparable<T>> void merge(T[] a, int low, int mid, int high, T[] aux) {
         System.arraycopy(a, low, aux, low, high - low + 1);
         int leftCursor = low;
         int rightCursor = mid + 1;

@@ -9,18 +9,18 @@ public class MergeTopDown extends MergeBase {
      */
     public static <T extends Comparable<T>> void sort(T[] a) {
         final int N = a.length;
-        aux = new Comparable[N];
-        sort(a, 0, N - 1);
+        T[] aux = (T[]) new Comparable[N];
+        sort(a, 0, N - 1, aux);
     }
 
-    private static <T extends Comparable<T>> void sort(T[] a, int low, int high) {
+    private static <T extends Comparable<T>> void sort(T[] a, int low, int high, T[] aux) {
         if (low >= high)
             return;
         final int mid = (low + high) / 2;
-        sort(a, low, mid);
-        sort(a, mid + 1, high);
+        sort(a, low, mid, aux);
+        sort(a, mid + 1, high, aux);
         if (!less(a[mid], a[mid + 1]))
-            merge(a, low, mid, high);
+            merge(a, low, mid, high, aux);
     }
 
 }
