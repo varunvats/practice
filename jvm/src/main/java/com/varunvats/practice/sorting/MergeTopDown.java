@@ -14,7 +14,8 @@ public class MergeTopDown extends MergeBase {
         final int mid = (low + high) / 2;
         sort(a, low, mid);
         sort(a, mid + 1, high);
-        merge(a, low, mid, high);
+        if (!less(a[mid], a[mid + 1]))
+            merge(a, low, mid, high);
     }
 
 }
