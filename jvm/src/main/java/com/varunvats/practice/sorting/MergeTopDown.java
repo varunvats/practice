@@ -2,6 +2,11 @@ package com.varunvats.practice.sorting;
 
 public class MergeTopDown extends MergeBase {
 
+    /**
+     * Sorts an array in-place using the top-down merge-sort algorithm.
+     *
+     * @param a The array to be sorted.
+     */
     public static <T extends Comparable<T>> void sort(T[] a) {
         final int N = a.length;
         aux = new Comparable[N];
