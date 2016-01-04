@@ -2,6 +2,10 @@ package com.varunvats.practice.sorting;
 
 public class MergeTopDown extends MergeBase {
 
+    private MergeTopDown() {
+        // This class cannot be instantiated.
+    }
+
     /**
      * Sorts an array in-place using the top-down merge-sort algorithm.
      *

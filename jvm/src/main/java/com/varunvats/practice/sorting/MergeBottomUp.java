@@ -2,6 +2,10 @@ package com.varunvats.practice.sorting;
 
 public class MergeBottomUp extends MergeBase {
 
+    private MergeBottomUp() {
+        // This class cannot be instantiated.
+    }
+
     /**
      * Sorts an array in-place using the bottom-up merge-sort algorithm.
      *

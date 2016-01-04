@@ -2,6 +2,10 @@ package com.varunvats.practice.sorting;
 
 public class Insertion extends SortBase {
 
+    private Insertion() {
+        // This class cannot be instantiated.
+    }
+
     /**
      * Sorts an array in-place using the insertion-sort algorithm.
      *

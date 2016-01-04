@@ -2,6 +2,10 @@ package com.varunvats.practice.sorting;
 
 public class Selection extends SortBase {
 
+    private Selection() {
+        // This class cannot be instantiated.
+    }
+
     /**
      * Sorts an array in-place using the selection-sort algorithm.
      *

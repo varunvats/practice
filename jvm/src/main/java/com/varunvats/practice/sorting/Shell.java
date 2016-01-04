@@ -2,6 +2,10 @@ package com.varunvats.practice.sorting;
 
 public class Shell extends SortBase {
 
+    private Shell() {
+        // This class cannot be instantiated.
+    }
+
     /**
      * Sorts an array in-place using the shell-sort algorithm.
      *
