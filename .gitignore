@@ -30,3 +30,7 @@ tramp
 
 # cask packages
 .cask/
+
+
+### IntelliJ Idea
+.idea/
