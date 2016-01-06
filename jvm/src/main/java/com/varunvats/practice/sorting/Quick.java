@@ -28,10 +28,16 @@ public class Quick extends SortBase {
         int leftCursor = low;
         int rightCursor = high + 1;
         while (true) {
-            while (less(a[++leftCursor], v)) {
+            do {
+                ++leftCursor;
             }
-            while (less(v, a[--rightCursor])) {
+            while (less(a[leftCursor], v));
+
+            do {
+                --rightCursor;
             }
+            while (less(v, a[rightCursor]));
+
             if (leftCursor >= rightCursor)
                 break;
             exchange(a, leftCursor, rightCursor);
