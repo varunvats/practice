@@ -27,7 +27,7 @@ object Skyline {
       case (Some(oldBuilding), _) =>
         val _ = buildingsAtCursor.dequeue()
         val newX = oldBuilding.fallingEdgePos
-        val newY = buildingsAtCursor.foldLeft(0.0)((currMin, building) => currMin.min(building.height))
+        val newY = buildingsAtCursor.foldLeft(Building.minHeight)((currMin, building) => currMin.min(building.height))
         val newPoints = prependPoints(points, (newX, currMaxY), (newX, newY))
         trace(newPoints, risingEdges, buildingsAtCursor)
     }
