@@ -10,17 +10,22 @@ class SkylineSpec extends UnitSpec {
 
     "be created" when {
 
-      "a single building located at x = 0.0" in {
+      "no buildings exist" in {
+        val buildings = Nil
+        Skyline.trace(buildings) shouldBe List(start)
+      }
+
+      "a single building is located at the start point" in {
         val buildings = List(Building(0, 6.5, 21.3))
         Skyline.trace(buildings) shouldBe List(start, (0.0, 21.3), (6.5, 21.3), (6.5, 0))
       }
 
-      "a single building located at x = 11.1" in {
+      "a single building is located at a distance from the start point" in {
         val buildings = List(Building(11.1, 19.5, 21.3))
         Skyline.trace(buildings) shouldBe List(start, (11.1, 0.0), (11.1, 21.3), (19.5, 21.3), (19.5, 0.0))
       }
 
-      "two buildings don't overlap at all" in {
+      "two buildings are separated by a distance (no overlap)" in {
         val buildings = List(Building(11.1, 19.5, 21.3), Building(29.3, 35.1, 15.9))
         val firstBuildingTrace = List(start, (11.1, 0.0), (11.1, 21.3), (19.5, 21.3), (19.5, 0.0))
         val secondBuildingTrace = List((29.3, 0.0), (29.3, 15.9), (35.1, 15.9), (35.1, 0.0))
@@ -33,7 +38,11 @@ class SkylineSpec extends UnitSpec {
         Skyline.trace(buildings) shouldBe expectedTrace
       }
 
-      "a portion of two buildings overlaps and the second building is taller than the first" in pending
+      "a portion of two buildings overlaps and the second building is taller than the first" in {
+        val buildings = List(Building(11.1, 19.5, 15.9), Building(14.3, 35.1, 40.3))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 15.9), (14.3, 15.9), (14.3, 40.3), (35.1, 40.3), (35.1, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
       "the second building starts at the point at which the first ends and the first building is taller" in pending
 

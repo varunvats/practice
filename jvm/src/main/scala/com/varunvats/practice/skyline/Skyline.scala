@@ -5,10 +5,12 @@ import scala.collection.mutable.{PriorityQueue => MutPriorityQueue}
 
 object Skyline {
 
+  private val startPoint = (0.0, 0.0)
+
   final def trace(buildings: List[Building]): List[(Double, Double)] = {
     val sortedBuildings = buildings.sortBy(building => building.risingEdgePos)
     val buildingsAtCursor = MutPriorityQueue.empty(Ordering.by { building: Building => -building.fallingEdgePos })
-    trace(List((0.0, 0.0)), sortedBuildings, buildingsAtCursor)
+    trace(List(startPoint), sortedBuildings, buildingsAtCursor)
   }
 
   @tailrec
