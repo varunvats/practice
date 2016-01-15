@@ -27,7 +27,7 @@ object Skyline {
       case (Some(oldBuilding), _) =>
         val _ = buildingsAtCursor.dequeue()
         val newX = oldBuilding.fallingEdgePos
-        val newY = buildingsAtCursor.foldLeft(Building.minHeight)((currMin, building) => currMin.min(building.height))
+        val newY = buildingsAtCursor.foldLeft(Building.minHeight)((currMax, building) => currMax.max(building.height))
         val newPoints = prependPoints(points, (newX, currMaxY), (newX, newY))
         trace(newPoints, risingEdges, buildingsAtCursor)
     }
@@ -35,9 +35,19 @@ object Skyline {
 
   private def prependPoints(existingPoints: List[(Double, Double)], newPoints: (Double, Double)*): List[(Double, Double)] =
     newPoints.foldLeft(existingPoints) { (updatedPoints, newPoint) =>
-      if (newPoint != updatedPoints.head)
+      val lastPoint = updatedPoints.head
+      if (newPoint != lastPoint && updatedPoints.length >= 2) {
+        val secondLastPoint = updatedPoints(1)
+        if (secondLastPoint._1 == lastPoint._1 && lastPoint._1 == newPoint._1)
+          (lastPoint._1, newPoint._2) +: updatedPoints.tail
+        else if (secondLastPoint._2 == lastPoint._2 && lastPoint._2 == newPoint._2)
+          (newPoint._1, lastPoint._2) +: updatedPoints.tail
+        else
+          newPoint +: updatedPoints
+      } else if (newPoint != lastPoint) {
         newPoint +: updatedPoints
-      else
+      } else {
         updatedPoints
+      }
     }
 }
