@@ -15,14 +15,16 @@ class SkylineSpec extends UnitSpec {
         Skyline.trace(buildings) shouldBe List(start)
       }
 
-      "a single building is located at the start point" in {
+      "one building is located at the start point" in {
         val buildings = List(Building(0, 6.5, 21.3))
-        Skyline.trace(buildings) shouldBe List(start, (0.0, 21.3), (6.5, 21.3), (6.5, 0))
+        val expectedTrace = List(start, (0.0, 21.3), (6.5, 21.3), (6.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
       }
 
-      "a single building is located at a distance from the start point" in {
+      "one building is located at a distance from the start point" in {
         val buildings = List(Building(11.1, 19.5, 21.3))
-        Skyline.trace(buildings) shouldBe List(start, (11.1, 0.0), (11.1, 21.3), (19.5, 21.3), (19.5, 0.0))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 21.3), (19.5, 21.3), (19.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
       }
 
       "two buildings are separated by a distance (no overlap)" in {
@@ -44,17 +46,41 @@ class SkylineSpec extends UnitSpec {
         Skyline.trace(buildings) shouldBe expectedTrace
       }
 
-      "the second building starts at the point at which the first ends and the first building is taller" in pending
+      "the second building starts where the first ends and the first building is taller" in {
+        val buildings = List(Building(11.1, 19.5, 40.3), Building(19.5, 35.1, 12.7))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 40.3), (19.5, 40.3), (19.5, 12.7), (35.1, 12.7), (35.1, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
-      "the second building starts at the point at which the first ends and the second building is taller" in pending
+      "the second building starts where the first ends and the second building is taller" in {
+        val buildings = List(Building(11.1, 19.5, 12.7), Building(19.5, 35.1, 40.3))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 12.7), (19.5, 12.7), (19.5, 40.3), (35.1, 40.3), (35.1, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
-      "one building is completely overshadowed by the other" in pending
+      "one building is completely overshadowed by the other" in {
+        val buildings = List(Building(11.1, 73.5, 40.3), Building(20.9, 41.1, 12.7))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 40.3), (73.5, 40.3), (73.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
-      "two buildings share the same start point and have the same width and height" in pending
+      "two buildings start at the same location and have the same width and height" in {
+        val buildings = List(Building(11.1, 73.5, 40.3), Building(11.1, 73.5, 40.3))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 40.3), (73.5, 40.3), (73.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
-      "two buildings share the same start point, but one is taller and wider than the other" in pending
+      "two buildings start at the same location, but one is taller and the other is wider" in {
+        val buildings = List(Building(11.1, 73.5, 40.3), Building(11.1, 21.5, 100.3))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 100.3), (21.5, 100.3), (21.5, 40.3), (73.5, 40.3), (73.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
 
-      "two buildings share the same end point, but one is taller and wider than the other" in pending
+      "two buildings end at the same location, but one is taller and the other is wider" in {
+        val buildings = List(Building(11.1, 73.5, 40.3), Building(21.5, 73.5, 100.3))
+        val expectedTrace = List(start, (11.1, 0.0), (11.1, 40.3), (21.5, 40.3), (21.5, 100.3), (73.5, 100.3), (73.5, 0.0))
+        Skyline.trace(buildings) shouldBe expectedTrace
+      }
     }
   }
 }
