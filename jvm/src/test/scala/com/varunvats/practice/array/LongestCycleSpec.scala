@@ -81,5 +81,13 @@ class LongestCycleSpec extends UnitSpec {
         LongestCycle.get(arr) shouldBe expectedCycle
       }
     }
+
+    "a cycle that has more than one element that points to an element in the cycle" should {
+      "contain only the elements from the cycle in the correct order" in {
+        val arr = IndexedSeq(5, 9, 11, 2, 2, 4, 7, 2, 11, 7, 3, 9)
+        val expectedCycle = Seq(2, 11, 9, 7)
+        LongestCycle.get(arr) shouldBe expectedCycle
+      }
+    }
   }
 }
