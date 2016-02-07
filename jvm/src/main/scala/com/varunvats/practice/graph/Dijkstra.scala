@@ -10,7 +10,7 @@ object Dijkstra {
     val costSoFar = mutable.Map[Int, Double](start -> 0)
     val frontier = mutable.PriorityQueue(start)(Ordering.by { node => -costSoFar(node) })
 
-    while (frontier.nonEmpty) {
+    while (frontier.nonEmpty && frontier.head != goal) {
       val current = frontier.dequeue()
       graph.get(current).foreach { edges =>
         edges.foreach { case Edge(dst, edgeCost) =>
