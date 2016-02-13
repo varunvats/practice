@@ -6,7 +6,7 @@ class LongestSubstringUniqueCharactersSpec extends UnitSpec {
 
   val givenAString = afterWord("given a string")
 
-  "The longest sub-string (containing unique character) finder" when givenAString {
+  "The longest sub-string (containing unique characters) finder" when givenAString {
 
     "that is empty" must {
       "return an empty string" in {

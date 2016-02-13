@@ -1,36 +1,28 @@
 package com.varunvats.practice.string
 
-import scala.annotation.tailrec
-
 object LongestSubstringUniqueCharacters {
 
-  def find(hayStack: String): String = {
-    find(hayStack, 0, "")
-  }
+  def find(haystack: String): String = {
 
-  @tailrec
-  private def find(hayStack: String, start: Int, longestSubSequence: String): String = {
-    val (nextSubSequence, cursorO) = getLongestSubSequence(hayStack, start, start)
-    val newLongestSubSequence =
-      if (nextSubSequence.length > longestSubSequence.length)
-        nextSubSequence
+    def getNewLongestAndFrom(longestSoFar: String, from: Int, cursor: Int) = {
+      val newLongestSoFar = if (cursor - from > longestSoFar.length)
+        haystack.substring(from, cursor)
       else
-        longestSubSequence
-    cursorO match {
-      case None => newLongestSubSequence
-      case Some(cursor) => find(hayStack, cursor, newLongestSubSequence)
+        longestSoFar
+      val newFrom = haystack.indexOf(haystack(cursor), from) + 1
+      (newLongestSoFar, newFrom)
     }
-  }
 
-  @tailrec
-  private def getLongestSubSequence(hayStack: String, from: Int, cursor: Int)
-  : (String, Option[Int]) = {
-    if (cursor >= hayStack.length)
-      (hayStack.substring(from), None)
-    else if (hayStack.view(from, cursor).contains(hayStack(cursor)))
-      (hayStack.substring(from, cursor), Some(hayStack.indexOf(hayStack(cursor), from) + 1))
-    else
-      getLongestSubSequence(hayStack, from, cursor + 1)
+    val (longestSubString, _) =
+      haystack.indices.foldLeft(("", 0)) { case ((longestSoFar, from), cursor) =>
+        if (haystack.view(from, cursor).contains(haystack(cursor))) {
+          getNewLongestAndFrom(longestSoFar, from, cursor)
+        } else if (cursor + 1 == haystack.length && cursor + 1 - from > longestSoFar.length) {
+          (haystack.substring(from), from)
+        } else {
+          (longestSoFar, from)
+        }
+      }
+    longestSubString
   }
-
 }
