@@ -2,29 +2,20 @@ package com.varunvats.practice.tree
 
 object SubTree {
 
-  case class Node[T](data: T, left: Option[Node[T]] = None, right: Option[Node[T]] = None)
-
-  def apply[T](haystack: Node[T], needle: Node[T]): Boolean =
+  def apply[T](haystack: BinaryTreeNode[T], needle: BinaryTreeNode[T]): Boolean =
     apply(Some(haystack), Some(needle))
 
-  private def apply[T](haystack: Option[Node[T]], needle: Option[Node[T]]): Boolean =
-    treesMatch(haystack, needle) ||
-      apply(haystack.flatMap(_.left), needle) ||
-      apply(haystack.flatMap(_.right), needle)
+  private def apply[T](haystackO: Option[BinaryTreeNode[T]], needleO: Option[BinaryTreeNode[T]]): Boolean =
+    treesMatch(haystackO, needleO) ||
+      haystackO.fold(false) { haystack =>
+        apply(haystack.left, needleO) || apply(haystack.right, needleO)
+      }
 
-  private def treesMatch[T](haystack: Option[Node[T]], needle: Option[Node[T]]): Boolean = {
-    if (needle.isEmpty)
-      return haystack.isEmpty
-    haystack.get.data == needle.get.data &&
-      treesMatch(haystack.flatMap(_.left), needle.flatMap(_.left)) &&
-      treesMatch(haystack.flatMap(_.right), needle.flatMap(_.right))
-  }
-
-  def apply2[T](haystack: Node[T], needle: Node[T]): Boolean =
-    apply2(Some(haystack), Some(needle))
-
-  private def apply2[T](haystack: Option[Node[T]], needle: Option[Node[T]]): Boolean =
-    haystack == needle ||
-      apply2(haystack.flatMap(_.left), needle) ||
-      apply2(haystack.flatMap(_.right), needle)
+  private def treesMatch[T](haystackO: Option[BinaryTreeNode[T]], needleO: Option[BinaryTreeNode[T]]): Boolean =
+    (haystackO, needleO) match {
+      case (_, None) => true
+      case (None, Some(_)) => false
+      case (Some(haystack), Some(needle)) =>
+        haystack.data == needle.data && treesMatch(haystack.left, needle.left) && treesMatch(haystack.right, needle.right)
+    }
 }
