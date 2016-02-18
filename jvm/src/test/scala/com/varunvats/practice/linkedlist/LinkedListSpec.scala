@@ -74,4 +74,58 @@ class LinkedListSpec extends UnitSpec {
     }
   }
 
+  "Calling update on a linked-list" must {
+
+    "throw an exception" when {
+      "the position to update is less than 0" in {
+        intercept[IndexOutOfBoundsException] {
+          LinkedList.update(LLNode(5), 6, -1)
+        }
+      }
+
+      "the position to insert is equal to the length of the list" in {
+        intercept[IndexOutOfBoundsException] {
+          LinkedList.update(LLNode(5), 6, 1)
+        }
+        intercept[IndexOutOfBoundsException] {
+          LinkedList.update(LLNode(5, Some(LLNode(21))), 6, 2)
+        }
+      }
+
+      "the position to insert is greater than the length of the list" in {
+        intercept[IndexOutOfBoundsException] {
+          LinkedList.update(LLNode(5), 6, 2)
+        }
+        intercept[IndexOutOfBoundsException] {
+          LinkedList.update(LLNode(5, Some(LLNode(21))), 6, 5)
+        }
+      }
+    }
+
+    "update the data at the given position" when {
+      "the position is the head of the list and the list contains only one element" in {
+        val list = LLNode(5)
+        LinkedList.update(list, 6, 0)
+        list shouldBe LLNode(6)
+      }
+
+      "the position is the head of the list and the list contains more than one element" in {
+        val list = LLNode(5, Some(LLNode(7, Some(LLNode(2, Some(LLNode(33)))))))
+        LinkedList.update(list, 6, 0)
+        list shouldBe LLNode(6, Some(LLNode(7, Some(LLNode(2, Some(LLNode(33)))))))
+      }
+
+      "the position is in the middle of the list" in {
+        val list = LLNode(5, Some(LLNode(7, Some(LLNode(2, Some(LLNode(33)))))))
+        LinkedList.update(list, 6, 2)
+        list shouldBe LLNode(5, Some(LLNode(7, Some(LLNode(6, Some(LLNode(33)))))))
+      }
+
+      "the position points to the last element in the list" in {
+        val list = LLNode(5, Some(LLNode(7, Some(LLNode(2, Some(LLNode(33)))))))
+        LinkedList.update(list, 6, 3)
+        list shouldBe LLNode(5, Some(LLNode(7, Some(LLNode(2, Some(LLNode(6)))))))
+      }
+    }
+  }
 }
