@@ -12,13 +12,11 @@ object LinkedList {
     var prev: Option[LLNode[T]] = Some(head)
     var i = 1
     while (i < pos) {
-      if (prev.isEmpty)
+      if (prev.isEmpty || prev.get.next.isEmpty)
         throw new IndexOutOfBoundsException(s"Position $pos must be lesser than or equal to the length of the list")
       prev = prev.get.next
       i = i + 1
     }
-    if (prev.isEmpty)
-      throw new IndexOutOfBoundsException(s"Position $pos must be lesser than or equal to the length of the list")
     prev.get.next = Some(LLNode(data, prev.get.next))
     head
   }

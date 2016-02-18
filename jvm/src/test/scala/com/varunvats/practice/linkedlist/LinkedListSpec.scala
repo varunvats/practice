@@ -65,6 +65,12 @@ class LinkedListSpec extends UnitSpec {
         val expectedList = LLNode(7, Some(LLNode(5, Some(LLNode(6, Some(LLNode(21, Some(LLNode(99)))))))))
         LinkedList.insert(list, 99, 4) shouldBe expectedList
       }
+
+      "the position is the length of the list minus 1" in {
+        val list = LLNode(7, Some(LLNode(5, Some(LLNode(6, Some(LLNode(21)))))))
+        val expectedList = LLNode(7, Some(LLNode(5, Some(LLNode(6, Some(LLNode(99, Some(LLNode(21)))))))))
+        LinkedList.insert(list, 99, 3) shouldBe expectedList
+      }
     }
   }
 
