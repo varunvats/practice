@@ -4,8 +4,6 @@ import com.varunvats.practice.sorting.UnitSpec
 
 class PropertyCountSpec extends UnitSpec {
 
-  val for_ = afterWord("for")
-
   "The property counter" must {
     "return 1 for a tree containing only 1 node" in {
       PropertyCount(BinaryTreeNode(6)) shouldBe 1
