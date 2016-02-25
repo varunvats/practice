@@ -15,9 +15,8 @@ object BuildOrder {
     val projectStates = mutable.Map.empty[T, State]
     projects.foldLeft(mutable.ListBuffer.empty[T]) { (buildOrder, project) =>
       projectStates.get(project).fold(apply(project, dependencyGraph, projectStates, buildOrder)) {
-        case Building =>
-          // Sanity check.
-          val msg = s"Project $project in illegal state ($Building)."
+        case Building => // Sanity check.
+          val msg = s"Project $project is in illegal state ($Building)."
           throw new IllegalStateException(msg)
         case Built =>
       }
@@ -37,8 +36,8 @@ object BuildOrder {
         else
           projectStates(dependency) match {
             case Building =>
-              val msg = s"Project $dependency has a circular dependency on itself via $project"
-              throw CannotBuildProjectException(msg)
+              val msg = s"Project $dependency has a circular dependency on itself via project $project"
+              throw NoValidBuildOrderException(msg)
             case Built =>
           }
       }
@@ -50,16 +49,15 @@ object BuildOrder {
   private def createDependencyGraph[T](dependencies: List[(T, T)]): Map[T, List[T]] = {
     val emptyGraph = mutable.Map.empty[T, List[T]]
     val graph = dependencies.foldLeft(emptyGraph) { case (tmpGraph, (dependent, dependency)) =>
-      if (tmpGraph.contains(dependent)) {
+      if (tmpGraph.contains(dependent))
         tmpGraph(dependent) = dependency +: tmpGraph(dependent)
-        tmpGraph
-      }
       else
         tmpGraph += (dependent -> List(dependency))
+      tmpGraph
     }
     graph.toMap
   }
 
-  case class CannotBuildProjectException(msg: String) extends RuntimeException(msg)
+  case class NoValidBuildOrderException(msg: String) extends RuntimeException(msg)
 
 }
