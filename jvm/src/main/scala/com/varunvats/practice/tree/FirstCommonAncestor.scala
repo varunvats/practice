@@ -13,8 +13,8 @@ object FirstCommonAncestor {
                        node1: BinaryTreeNode[T],
                        node2: BinaryTreeNode[T]): (Boolean, Boolean, Option[BinaryTreeNode[T]]) =
     nodeO.fold((false, false, Option.empty[BinaryTreeNode[T]])) { node =>
-      val (node1Found, node2Found, bothNodesFoundO) = checkWhichNodesAreFound(node, node1, node2)
-      (node1Found, node2Found, bothNodesFoundO) match {
+      val (node1Found, node2Found, fcAncestorO) = checkWhichNodesAreFound(node, node1, node2)
+      (node1Found, node2Found, fcAncestorO) match {
         case (false, false, _) =>
           (node1.data == node.data, node2.data == node.data, None)
         case (false, true, _) =>
@@ -31,11 +31,11 @@ object FirstCommonAncestor {
   private def checkWhichNodesAreFound[T](node: BinaryTreeNode[T],
                                          node1: BinaryTreeNode[T],
                                          node2: BinaryTreeNode[T]): (Boolean, Boolean, Option[BinaryTreeNode[T]]) = {
-    val (node1OnLeft, node2OnLeft, bothNodesOnLeftO) = apply(node.left, node1, node2)
-    val (node1OnRight, node2OnRight, bothNodesOnRightO) = apply(node.right, node1, node2)
+    val (node1OnLeft, node2OnLeft, fcAncestorOnLeftO) = apply(node.left, node1, node2)
+    val (node1OnRight, node2OnRight, fcAncestorOnRightO) = apply(node.right, node1, node2)
     val node1Found = node1OnLeft || node1OnRight
     val node2Found = node2OnLeft || node2OnRight
-    val bothNodesFoundO = bothNodesOnLeftO.orElse(bothNodesOnRightO)
-    (node1Found, node2Found, bothNodesFoundO)
+    val fcAncestorO = fcAncestorOnLeftO.orElse(fcAncestorOnRightO)
+    (node1Found, node2Found, fcAncestorO)
   }
 }
