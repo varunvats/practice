@@ -3,6 +3,7 @@ package com.varunvats.practice.tree
 object FirstCommonAncestor {
 
   def apply[T](tree: BinaryTreeNode[T], node1Data: T, node2Data: T): Option[BinaryTreeNode[T]] = {
+    // Assumption: all nodes of the tree are unique (i.e. no values repeat).
     val (_, _, firstCommonAncestorO) = apply(Some(tree), node1Data, node2Data)
     firstCommonAncestorO
   }
