@@ -128,4 +128,34 @@ class LinkedListSpec extends UnitSpec {
       }
     }
   }
+
+  "Calling removeDuplicates" must {
+    "do nothing" when {
+      "given a list that doesn't contain duplicates" in {
+        val list = LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3)))))))
+        LinkedList.removeDuplicates(list)
+        list shouldBe LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3)))))))
+      }
+    }
+
+    "remove duplicates from the list" when {
+      "given a list whose first element is a duplicate" in {
+        val list = LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3, Some(LLNode(5, Some(LLNode(23)))))))))))
+        LinkedList.removeDuplicates(list)
+        list shouldBe LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3, Some(LLNode(23)))))))))
+      }
+
+      "given a list whose last element is a duplicate" in {
+        val list = LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3, Some(LLNode(1, Some(LLNode(21)))))))))))
+        LinkedList.removeDuplicates(list)
+        list shouldBe LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3, Some(LLNode(1)))))))))
+      }
+
+      "given a list whose last two elements are duplicates" in {
+        val list = LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3, Some(LLNode(3, Some(LLNode(21)))))))))))
+        LinkedList.removeDuplicates(list)
+        list shouldBe LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3)))))))
+      }
+    }
+  }
 }

@@ -1,5 +1,8 @@
 package com.varunvats.practice.linkedlist
 
+import scala.annotation.tailrec
+import scala.collection.mutable
+
 object LinkedList {
 
   case class LLNode[T](var data: T, var next: Option[LLNode[T]] = None)
@@ -20,6 +23,23 @@ object LinkedList {
       if (prev.next.isEmpty)
         throw new IndexOutOfBoundsException(s"Position $pos must be lesser than or equal to the length of the list")
       prev.next.get.data = data
+    }
+  }
+
+  def removeDuplicates[T](head: LLNode[T]): Unit = {
+    val seen = mutable.Set(head.data)
+    removeDuplicates(head, seen)
+  }
+
+  @tailrec
+  private def removeDuplicates[T](node: LLNode[T], seen: mutable.Set[T]): Unit = {
+    node.next match {
+      case Some(nextNode) if seen(nextNode.data) =>
+        node.next = nextNode.next
+        removeDuplicates(node, seen)
+      case Some(nextNode) =>
+        removeDuplicates(nextNode, seen += nextNode.data)
+      case None =>
     }
   }
 
