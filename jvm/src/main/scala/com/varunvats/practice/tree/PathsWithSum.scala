@@ -1,6 +1,5 @@
 package com.varunvats.practice.tree
 
-
 object PathsWithSum {
 
   def apply(tree: BinaryTreeNode[Int], sum: Int): Int = {
