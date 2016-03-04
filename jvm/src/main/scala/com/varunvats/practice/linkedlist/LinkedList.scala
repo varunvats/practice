@@ -31,6 +31,43 @@ object LinkedList {
     removeDuplicates(head, seen)
   }
 
+  def lastRecursive[T](head: LLNode[T], k: Int): Option[LLNode[T]] = {
+    val (lastO, _) = lastRecursive(Some(head), k)
+    lastO
+  }
+
+  def lastIterative[T](head: LLNode[T], k: Int): Option[LLNode[T]] = {
+    val kthNodeO = getKthNode(head, 1, k)
+    kthNodeO.map(slide(head, _))
+  }
+
+  @tailrec
+  private def slide[T](trailingPointer: LLNode[T], leadingPointer: LLNode[T]): LLNode[T] =
+    leadingPointer.next match {
+      case None => trailingPointer
+      case Some(nextLeadingPointer) => slide(trailingPointer.next.get, nextLeadingPointer)
+    }
+
+  @tailrec
+  private def getKthNode[T](node: LLNode[T], i: Int, k: Int): Option[LLNode[T]] = {
+    if (i == k)
+      return Some(node)
+    node.next match {
+      case None => None
+      case Some(nextNode) => getKthNode(nextNode, i + 1, k)
+    }
+  }
+
+  private def lastRecursive[T](nodeO: Option[LLNode[T]], k: Int): (Option[LLNode[T]], Int) =
+    nodeO.fold((Option.empty[LLNode[T]], 0)) { node =>
+      val result = lastRecursive(node.next, k)
+      result match {
+        case (kth@Some(_), numNodes) => (kth, numNodes + 1)
+        case (_, numNodes) if numNodes + 1 == k => (nodeO, numNodes + 1)
+        case (_, numNodes) => (None, numNodes + 1)
+      }
+    }
+
   @tailrec
   private def removeDuplicates[T](node: LLNode[T], seen: mutable.Set[T]): Unit = {
     node.next match {

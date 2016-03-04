@@ -5,6 +5,8 @@ import com.varunvats.practice.sorting.UnitSpec
 
 class LinkedListSpec extends UnitSpec {
 
+  val givenAListContaining = afterWord("given a list containing")
+
   "Calling insert on a linked-list" must {
 
     "throw an exception" when {
@@ -156,6 +158,71 @@ class LinkedListSpec extends UnitSpec {
         LinkedList.removeDuplicates(list)
         list shouldBe LLNode(5, Some(LLNode(4, Some(LLNode(21, Some(LLNode(3)))))))
       }
+    }
+  }
+
+  "The 0th last element" when givenAListContaining {
+    "only one element must be None" in {
+      val list = LLNode(5)
+      LinkedList.lastRecursive(list, 0) shouldBe None
+      LinkedList.lastIterative(list, 0) shouldBe None
+    }
+
+    "three element must be None" in {
+      val list = LLNode(5, Some(LLNode(7, Some(LLNode(3)))))
+      LinkedList.lastRecursive(list, 0) shouldBe None
+      LinkedList.lastIterative(list, 0) shouldBe None
+    }
+  }
+
+  "The 1st last element" when givenAListContaining {
+    "only one element must be the only element in the list" in {
+      val list = LLNode(5)
+      LinkedList.lastRecursive(list, 1).get shouldBe list
+      LinkedList.lastIterative(list, 1).get shouldBe list
+    }
+
+    "three elements must be the last element in the list" in {
+      val list = LLNode(5, Some(LLNode(7, Some(LLNode(3)))))
+      val last = list.next.get.next.get
+      LinkedList.lastRecursive(list, 1).get shouldBe last
+      LinkedList.lastIterative(list, 1).get shouldBe last
+    }
+  }
+
+  "The 2nd last element" when givenAListContaining {
+    "only one element must be None" in {
+      val list = LLNode(5)
+      LinkedList.lastRecursive(list, 2) shouldBe None
+      LinkedList.lastIterative(list, 2) shouldBe None
+    }
+
+    "two elements must be the first element of the list" in {
+      val list = LLNode(5, Some(LLNode(6)))
+      LinkedList.lastRecursive(list, 2).get shouldBe list
+      LinkedList.lastIterative(list, 2).get shouldBe list
+    }
+
+    "three elements must be the second element of the list" in {
+      val list = LLNode(5, Some(LLNode(6, Some(LLNode(3)))))
+      val secondLast = list.next.get
+      LinkedList.lastRecursive(list, 2).get shouldBe secondLast
+      LinkedList.lastIterative(list, 2).get shouldBe secondLast
+    }
+
+    "four elements must be the third element of the list" in {
+      val list = LLNode(5, Some(LLNode(6, Some(LLNode(3, Some(LLNode(7)))))))
+      val secondLast = list.next.get.next.get
+      LinkedList.lastRecursive(list, 2).get shouldBe secondLast
+      LinkedList.lastIterative(list, 2).get shouldBe secondLast
+    }
+  }
+
+  "The 5th last element" when givenAListContaining {
+    "four elements must be None" in {
+      val list = LLNode(5, Some(LLNode(6, Some(LLNode(3, Some(LLNode(7)))))))
+      LinkedList.lastRecursive(list, 5) shouldBe None
+      LinkedList.lastIterative(list, 5) shouldBe None
     }
   }
 }
