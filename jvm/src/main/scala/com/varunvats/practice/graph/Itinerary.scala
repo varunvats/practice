@@ -24,7 +24,8 @@ object Itinerary {
                              tickets: List[Ticket], itinerary: Seq[String]): List[Seq[String]] = {
     if (itineraryIsComplete(itinerary, tickets))
       return List(itinerary.reverse)
-    graph(from).flatMap { to =>
+    val toLocations = graph.getOrElse(from, List.empty[String])
+    toLocations.flatMap { to =>
       if (ticketAvailable((from, to), tickets, itinerary))
         getItineraries(graph, to, tickets, to +: itinerary)
       else
@@ -35,7 +36,8 @@ object Itinerary {
   private def ticketAvailable(ticket: Ticket, tickets: List[Ticket],
                               itinerary: Seq[String]): Boolean = {
     val numTicketsAvailable = tickets.count(_ == ticket)
-    val numTicketsUsed = itinerary.sliding(2).count(t => t.head == ticket._1 && t(1) == ticket._2)
+    // Note: Itinerary is reversed.
+    val numTicketsUsed = itinerary.sliding(2).count(t => t.head == ticket._2 && t(1) == ticket._1)
     numTicketsAvailable > numTicketsUsed
   }
 
