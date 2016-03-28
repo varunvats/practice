@@ -4,7 +4,9 @@ object LongestIncreasingPathLength {
 
   private val ZeroLength = 0
 
-  def apply(matrix: Seq[Seq[Int]]): Int = {
+  def apply(matrix: Array[Array[Int]]): Int = {
+    if (matrix.isEmpty || matrix.head.isEmpty)
+      return 0
     val cache = initializeCache(matrix)
     matrix.indices.foldLeft(ZeroLength) { (longestIncPathLenLastRow, rowNum) =>
       matrix(rowNum).indices.foldLeft(longestIncPathLenLastRow) {
@@ -15,7 +17,7 @@ object LongestIncreasingPathLength {
     }
   }
 
-  private def getLongestIncPathLen(matrix: Seq[Seq[Int]],
+  private def getLongestIncPathLen(matrix: Array[Array[Int]],
                                    cache: Array[Array[Option[Int]]],
                                    rowNum: Int, colNum: Int): Int = {
     if (cache(rowNum)(colNum).nonEmpty)
@@ -31,7 +33,7 @@ object LongestIncreasingPathLength {
     longestIncPathLen
   }
 
-  private def getNeighbors(matrix: Seq[Seq[Int]], rowNum: Int, colNum: Int): Seq[(Int, Int)] = {
+  private def getNeighbors(matrix: Array[Array[Int]], rowNum: Int, colNum: Int): Seq[(Int, Int)] = {
     val m = matrix.length
     val n = matrix.head.length
     val currVal = matrix(rowNum)(colNum)
@@ -47,7 +49,7 @@ object LongestIncreasingPathLength {
     neighbors
   }
 
-  private def initializeCache(matrix: Seq[Seq[Int]]): Array[Array[Option[Int]]] = {
+  private def initializeCache(matrix: Array[Array[Int]]): Array[Array[Option[Int]]] = {
     val numRows = matrix.length
     val numCols = matrix.head.length
     Array.fill(numRows)(Array.fill(numCols)(Option.empty[Int]))
